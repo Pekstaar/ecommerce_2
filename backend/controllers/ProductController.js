@@ -10,6 +10,16 @@ module.exports.getProducts = async (_, res) => {
   }
 };
 
+module.exports.getSingleProduct = async (req, res) => {
+  try {
+    const product = await Product.findById(req.params.id);
+
+    res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
 module.exports.createProduct = async (req, res) => {
   try {
     const newProduct = await new Product({
@@ -52,6 +62,16 @@ module.exports.updateProduct = async (req, res) => {
     await product.save();
 
     return res.status(200).json(product);
+  } catch (error) {
+    res.status(500).json(error);
+  }
+};
+
+module.exports.deleteProduct = async (req, res) => {
+  try {
+    await Product.findByIdAndDelete(req.params.id);
+
+    return res.status(200).json({ messge: "Product deleted successfully!" });
   } catch (error) {
     res.status(500).json(error);
   }

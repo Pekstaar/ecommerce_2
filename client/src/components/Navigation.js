@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
+import { Context } from "../utils/MainContext";
 
 const Navigation = () => {
   const [active] = useState("home");
+  const { productsInCart } = useContext(Context);
 
   return (
     <nav className="navbar navbar-expand-lg navbar-light bg-light ">
       <div className="container px-4 py-2 px-lg-5">
-        <a className="navbar-brand" href="#!">
+        <Link className="navbar-brand" to="/">
           Tech-Store
-        </a>
+        </Link>
         <button className="navbar-toggler" type="button">
           <span className="navbar-toggler-icon"></span>
         </button>
@@ -22,13 +24,13 @@ const Navigation = () => {
             <ListItem active={active} title="Profile" link="/profile" />
           </ul>
           <form className="d-flex">
-            <button className="btn btn-outline-dark" type="submit">
+            <Link to="/cart" className="btn btn-outline-dark" type="submit">
               <i className="bi-cart-fill me-1"></i>
               Cart
               <span className="badge bg-dark text-white ms-1 rounded-pill">
-                0
+                {productsInCart.length}
               </span>
-            </button>
+            </Link>
 
             <Link to="/signin" as="button" className="btn btn-primary ms-5">
               Signin
@@ -56,16 +58,16 @@ const ListItem = ({ title, link, active }) => (
           : "nav-item "
       }
     >
-      <Link
+      <span
         className={
           active.toLowerCase() === title.toLowerCase()
             ? "nav-link text-dark"
             : "nav-link"
         }
-        to="#!"
+        // to="#!"
       >
         {title}
-      </Link>
+      </span>
     </li>
   </Link>
 );
